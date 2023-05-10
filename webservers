@@ -1,0 +1,36 @@
+---
+- hosts: all
+  become: true
+  tasks:      
+    - name: installing webserver in debian
+      apt: 
+        name: apache2
+        state: latest
+      when: ansible_os_family == "Debian"      
+
+
+    - name: installing webserver in rhel
+      yum: 
+        name: httpd
+        state: latest
+      when: ansible_os_family == "RedHat"
+
+    - name: copy file
+      copy: 
+         src: index.html
+         dest: /var/www/html
+
+    - name: service restart in debian
+      service: 
+        name: apache2
+        state: restarted
+      when: ansible_os_family == "Debian"
+
+    - name: service restart in rhel
+      service:
+        name: httpd
+        state: restarted
+      when: ansible_os_family == "RedHat"       
+
+
+
