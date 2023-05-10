@@ -1,0 +1,33 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+    - shell: 'touch a'
+    - name: shell update random value
+      shell: 'echo "{{ansible_os_family}}"  >a '
+
+    - name: register
+      shell: 'cat a'
+      register: abc
+    - debug:
+          msg: "{{ java_abc}}"
+      ignore_errors: yes
+
+    - name: rescue block    
+      block:        
+        - name: install java in debian
+          apt:
+            name: "{{ java_deb }}"
+            state: latest
+            update_cache: yes
+      # when: ansible_os_family == "debian"
+      
+      rescue: 
+        - name: install java in rhel
+          yum:
+            name: "{{ java_rhel }}"
+            state: present
+            update_cache: yes
+      # when: ansible_os_family == "RedHat"      
+
+         
