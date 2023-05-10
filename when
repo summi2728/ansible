@@ -1,0 +1,21 @@
+---
+- hosts: all
+  become: true
+  tasks:
+   - name: install a package in ubuntu
+     apt:
+       name:
+          - wget
+          - tree
+       state: latest
+     when: ansible_os_family == "Debian" 
+
+   - name: install a package in rhel
+     yum:
+       name:
+          - wget
+          - tree
+     state: latest  
+  when: ansible_os_family == "RedHat"
+     
+
