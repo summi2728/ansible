@@ -1,0 +1,13 @@
+---
+- hosts: all
+  become: true
+  tasks:
+    - name: install package wget
+      apt:
+       Name: wget
+       state: present
+    - name: install package tree
+      apt:
+       Name: tree
+       state: present
+
