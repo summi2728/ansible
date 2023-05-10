@@ -1,0 +1,11 @@
+---   
+- hosts: all
+  become: true
+  tasks:
+    - name: installing packages with loops
+      apt:
+         Name: "{{ item }}"
+         state: absent  
+      with_items:
+        - wget
+        - tree
